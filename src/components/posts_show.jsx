@@ -6,16 +6,29 @@ import { fetchPost } from '../actions/index';
 class PostsShow extends Component {
 
     componentDidMount() {
-        const {id }= this.props.match.params;
+        const { id } = this.props.match.params;
         // this.props.match.params.id;
         this.props.fetchPost(id);
     }
 
 
 
-    render(){
-        return(
-            <div>Nothing</div>
+    render() {
+        const { post } = this.props;
+
+        if (!post) {
+            return (
+                <div>
+                    Loading...
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                <h3>{post.title}</h3>
+                <p>{post.content}</p>
+            </div>
         )
     }
 }
@@ -29,5 +42,5 @@ function mapStateToProps({ posts }, ownProps) {
 }
 
 // Action creator shrtcuts
-export default connect(null, { fetchPost })(PostsShow);
+export default connect(mapStateToProps, { fetchPost })(PostsShow);
 // export default PostsNew;
