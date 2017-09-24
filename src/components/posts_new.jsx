@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 
 class PostsNew extends Component {
 
-    renderField(field){
+    renderField(field) {
         return (
             <div className="form-group">
                 <label>{field.label}</label>
@@ -12,14 +12,22 @@ class PostsNew extends Component {
                     type="text"
                     {...field.input}
                 />
+                {field.meta.error}
             </div>
         )
     }
 
+    onSubmit(values){
+        console.log(values);
+    }
+
     render() {
+
+        const { handleSubmit } = this.props;
+
         return (
-            <form>
-                 <div>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+                <div>
                     <label>Title</label>
                     <div>
                         <Field
@@ -30,7 +38,7 @@ class PostsNew extends Component {
                         />
                     </div>
                 </div>
-                 <div>
+                <div>
                     <label>Categories</label>
                     <div>
                         <Field
@@ -41,7 +49,7 @@ class PostsNew extends Component {
                         />
                     </div>
                 </div>
-                 <div>
+                <div>
                     <label>Post Content</label>
                     <div>
                         <Field
@@ -52,6 +60,7 @@ class PostsNew extends Component {
                         />
                     </div>
                 </div>
+                <button type="submit" className="btn">Submit</button>
             </form>
         )
     }
@@ -61,25 +70,26 @@ function validate(values) {
     // values = { title: 'asdasd', catege....}
     const errors = {};
 
-    if(!values.title){
+    if (!values.title) {
         errors.title = "Enter title!";
-    }    
-    
+    }
 
-    if(!values.categories){
+
+    if (!values.categories) {
         errors.categories = "Enter categories!";
-    }    
+    }
 
-    if(!values.content){
+    if (!values.content) {
         errors.content = "Enter content!";
-    }    
+    }
 
     // if errors is empty, the form is fine to submit
     return errors;
 }
 
 export default reduxForm({
-  form: 'PostsNewForm' // a unique identifier for this form
+    validate,
+    form: 'PostsNewForm' // a unique identifier for this form
 })(PostsNew)
 
 // export default PostsNew;
