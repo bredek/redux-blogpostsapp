@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 
 // functions
@@ -8,13 +9,38 @@ import { fetchPosts } from '../actions/index';
 
 class PostIndex extends Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.fetchPosts();
     }
 
+    renderPosts() {
+        return _.map(this.props.posts, post => {
+            return (
+                <li className="list-group-item">
+                    {post.title}
+                </li>
+            )
+        })
+    }
+
     render() {
-        return <div>PostIndex</div>
+        return (
+            <div>
+                <ul>
+                    {this.renderPosts()}
+                </ul>
+            </div>
+        )
     }
 }
+
+// whatever is returned will show up as props
+// Object
+function mapStateToProps(state) {
+    return {
+        posts: state.posts
+    };
+}
+
 // Action creator shrtcuts
-export default connect(null, { fetchPosts })(PostIndex);
+export default connect(mapStateToProps, { fetchPosts })(PostIndex);
