@@ -15,9 +15,11 @@ export function fetchPosts() {
     }
 }
 
-export function createPost(values) {
+export function createPost(values, callback) {
 
-    const request = axios.post(ROOT_URL, values);
+    const request = axios.post(ROOT_URL, values).then( () => {
+        callback()
+    });
 
     return {
         type: CREATE_POST,
